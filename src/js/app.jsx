@@ -9,9 +9,12 @@ export default class App extends React.Component {
       balance: "",
       rate: "",
       term: "",
-      output: ""
+      output: "",
+      result: null
     }
     this.onChange = this.onChange.bind(this)
+    this.calculate = this.calculate.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
  
   onChange(e) {
@@ -19,6 +22,10 @@ export default class App extends React.Component {
   }
 
   calculate(balance, rate, term) {
+    balance = this.state.balance;
+    rate = this.state.rate;
+    term = this.state.term;
+    
     const n = term * 12;
     const r = rate / 1200;
     const top = r * (1 + r) ** n;
@@ -27,26 +34,18 @@ export default class App extends React.Component {
     var payment = (balance * (top / bottom)).toFixed(2);   //I think this is the right math? 
     return payment;
   }
-  handleClick(balance, rate, term) {
-    balance = this.state.balance;
-    rate = this.state.rate;
-    term = this.state.term;
+  handleClick(e) {
+    e.preventDefault();
 
-    var result = this.calculate(balance, rate, term);
+    var result = this.calculate();
     console.log(result);
-    // return this.state.result;
-    // this.setState({
-    //   output: + "is your monthly payment."        //this is't right but something needs to go here. 
-    // });
+
+    this.setState({
+      output: `$${result} + "is your monthly payment."`
+    });
   }
 
   render() {
-    // const {
-    //   balance, 
-    //   rate, 
-    //   term, 
-    //   output
-    // } = this.state;
     return (
       <div className='container'>
         <form className="form-horizontal">
@@ -92,7 +91,7 @@ export default class App extends React.Component {
             </select>
             <button
               name="submit"
-              onClick={this.handleClick()}
+              onClick={this.handleClick}
               >Submit</button>
           </div>
           <div 
@@ -100,9 +99,10 @@ export default class App extends React.Component {
             onChange={this.onChange}
             value={ this.state.output } 
             className="form-group" 
-            id="output"></div>
+            id="output">
+              <h3>{ this.state.output }</h3>
+            </div>
         </form>
-        {/* your JSX goes here */}
       </div>
     );
   }
