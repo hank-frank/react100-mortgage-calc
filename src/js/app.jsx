@@ -22,7 +22,7 @@ export default class App extends React.Component {
   }
 //the calc function that is running the math. 
   calculate(balance, rate, term) {
-    balance = this.state.balance; //if these are declared below in handle click they reset the state of the output ot the initial state for some reason. 
+    balance = this.state.balance; //if these are declared below in handleCLick the var result has access to them and as their state changed back after the click event runs to default of "" after the click event result reruns the calc funct since their state changed and will be outputting nothing since the initial state is nothing.
     rate = this.state.rate;
     term = this.state.term;
     
