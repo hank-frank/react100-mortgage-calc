@@ -4,25 +4,25 @@ export default class App extends React.Component {
   constructor( props ) {
     super( props );
 
-    this.state = {  //these need to have their initial state set here or they are not able to have their state referenced anywhere later in the Component. 
+    this.state = { 
       balance: "",
       rate: "",
       term: "",
       output: "",
-      result: null //needing to delare initial state of this here to be able to setState on it later. 
+      result: null 
     }
-    //these functions need to be bound to the component or they are not accessable to any other part of the component. This is how you bind. 
+
     this.onChange = this.onChange.bind(this)
     this.calculate = this.calculate.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
- //A function that is making it possible to collect the value of any item in the HTML below that has it's onChange attr set below to onChange
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
-//the calc function that is running the math. 
+
   calculate(balance, rate, term) {
-    balance = this.state.balance; //if these are declared below in handleCLick the var result has access to them and as their state changed back after the click event runs to default of "" after the click event result reruns the calc funct since their state changed and will be outputting nothing since the initial state is nothing.
+    balance = this.state.balance; 
     rate = this.state.rate;
     term = this.state.term;
     
@@ -34,18 +34,17 @@ export default class App extends React.Component {
     var payment = (balance * (top / bottom)).toFixed(2);
     return payment;
   }
-  //handle click here is taking the result of the calc function and outputting it below to the h3 element by setting it's state to be the result of themath. `` are template literals and are how it's being concat'd
+  
   handleClick(e) {
     e.preventDefault();
 
-    var result = this.calculate();  //this is necessary here or it cant find calculate
-    console.log(result);
+    var result = this.calculate();  
 
-    this.setState({ //passing result down ot the h3 below
+    this.setState({ 
       output: `$${result} + "is your monthly payment."`
     });
   }
-//whats rendered, the above is working off of and onto this as though it were the DOM(withnone of the DOM functionality using this/state for all of that)
+
   render() {
     return (
       <div className='container'>
